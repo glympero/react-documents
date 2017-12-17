@@ -89,3 +89,73 @@ A loader lets you customise the behaviour of webpack when it loads a given file
       }
   }*
 - define rules which can be how to convert JSX to JS, SCSS to CSS etc
+  module: {
+      rules: [{
+          loader: 'babel-loader',   //define the loader
+          test: /\.js$/,            //files that end with .js
+          exclude: /node_modules/   //dont run babel inside node_modules
+      }]
+  }
+- tell babel to use env and react presets by creating a separate .babelrc file
+  in the root of project. This is a json file
+
+#### Source Maps
+- add devtool inside webpack as a sibling to module to track errors inside our code
+- development setup: cheap-module-eval-source-map
+
+module: {
+    rules: [{
+        ...
+    }]
+},
+devtool: 'cheap-module-eval-source-map'
+
+#### webpack dev server (live-server alternative)
+
+- installation : yarn add webpack-dev-server@2.5.1
+- Lots of options but only one is needed 'contentbase' : which tells the dev server
+  where to find our public files.
+- add devServer inside webpack as a sibling to module. devServer is an object
+  and we configure inside the contentBase which is the absolute path to public folder
+
+  *module: {
+      rules: [{
+          ...
+      }]
+  },
+  devtool: 'cheap-module-eval-source-map',
+  devServer: path_join(__dirname, "public")*
+- add a script to package.json in order to run it. Inside scripts:
+  "dev-server": "webpack-dev-server",
+
+Now with only
+yarn run dev-server, we can watch our changes and use babel for
+transforming JSX.
+
+IMPORTANT!
+Does not use bundle.js file in the public folder, but from the file which
+is generated from dev-server and keeps it in memory
+
+### SCSS vs SASS
+(SCSS uses semi-colomns and curly braces, SASS does not)
+
+- Create a new folder in src directory : /styles
+- Add file inside styles : styles.css
+- Add new rule to webpack with two loaders: css-loader, style-loader
+- add loaders locally : yarn add style-loader css-loader
+- configure rule by adding an array of loaders with 'use': use: [ 'style-loader', 'css-loader' ]
+module: {
+    rules: [{
+        loader: 'babel-loader',
+        test: /\.js$/,
+        exclude: /node_modules/
+    },{
+        test:/\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+    }]
+},
+- Go to app.js and import the css file from styles folder
+import './styles/styles.css';
+
+- To use scss we need two new loaders to transform scss to css that browsers understand
+- yarn add sass-loader

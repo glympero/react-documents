@@ -225,3 +225,46 @@ componentWillUnmount - Fires before a component goes away
 - NO access to arguments: prevProps and prevState
 
 Inside them we have access to this.state and this.props
+
+## passing children to props
+What if we had a layout component and we wanted to render a header and a footer
+and we wanted some stuff in the middle to be dynamic specific to each individual
+page
+We pass the JSX through the component
+
+One way is to create our template and pass it via pros to component and then render it
+- Create the layout
+const Layout = (props) => {
+  return (
+    <div>
+      <p>Header</p>
+      {props.content}
+      <p>Footer</p>
+    </div>
+  );
+}
+
+- Create the template
+const template = (
+  <div>
+    <h1>Page Title</h1>
+    <p>This is my page</p>
+  </div>
+);
+
+- Pass it via props and render it to component
+ReactDOM.render(<Layout content={template}/>, document.getElementById('app'));
+
+
+Another way: Break the Component to <Layout><p>This is inline</p></Layout> and pass inside the JSX
+When you pass something in to a component like this, you have access to it via
+the children prop:
+const Layout = (props) => {
+  return (
+    <div>
+      <p>Header</p>
+      {props.children}
+      <p>Footer</p>
+    </div>
+  );
+}

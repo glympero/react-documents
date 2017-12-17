@@ -8,6 +8,13 @@ try {
   console.log(e)''
 }
 
+### arrow Functions
+Arrow functions use whatever this binding is in the parent scope for the classes
+which for classes is the class instance
+
+my_function = (arguments) => {
+  this. //works without binding
+}
 
 ### parse
 
@@ -42,3 +49,32 @@ There are two types of exports
 ### import third party dependencies (npm)
 
 - install -> import -> use
+
+### ES6 class properties
+Avoid the need to create a constructor for just adding this.state
+Avoid the need to manually bind all of our handler methods
+
+All that can be done by setting up the babelrc file in order to support new syntax
+
+The babel plugin is : 'transform-class properties' plugin
+
+Installation
+- yarn add babel-plugin-transform-class-properties@6.24.
+- configure .babelrc file by adding a new key-value pair "plugins"
+
+{
+  "presets": [
+    "env",
+    "react"
+  ],
+  "plugins": [
+    "transform-class-properties"
+  ]
+}
+
+Now constructor is not necessary and we can declare properties like
+class NewClass {
+  state = {
+    ......
+  }
+}
