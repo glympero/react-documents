@@ -268,3 +268,20 @@ const Layout = (props) => {
     </div>
   );
 }
+
+## Server vs Client Routing
+
+### Server Side Routing
+Browser detects a URL change and communicates with the server. So browser makes an HTTP
+request and the server responds with the HTML and browser goes ahead and renders things.
+It completely removes what was shows in the browser and completely replaces it with the
+new HTML. This takes time...request-responses-latency-network performance.
+
+### Client Side Routing
+Client side handles the re-rendering of the application using client side javascript.
+Server request happens only the first time.
+We use the HTML history API to watch for url changes and run javascript to implement
+those changes.
+
+- 1. Find matching component (/ -> App, /help -> Help, /about -> About)
+- 2. Render with javascript function call
